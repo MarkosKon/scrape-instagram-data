@@ -25,6 +25,6 @@ module.exports = ({
       imageHQ: get(node, "display_url"),
       imageThumbnail: get(node, "thumbnail_src"),
       a11yCaption: get(node, "accessibility_caption"),
-      date: new Date(get(node, "taken_at_timestamp")).toISOString()
+      date: new Date(get(node, "taken_at_timestamp") * 1000).toISOString()
     };
   });

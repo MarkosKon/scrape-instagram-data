@@ -48,5 +48,4 @@ const getData = require("./getData");
       JSON.stringify(posts, null, 2)
     );
   }
-  console.log("End?");
 })();
