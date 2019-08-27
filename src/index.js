@@ -2,7 +2,7 @@ const fs = require("fs");
 const mkdirp = require("mkdirp");
 const inquirer = require("inquirer");
 
-const getData = require("./src/getData");
+const getData = require("./getData");
 
 (async () => {
   let downloadData = true;
