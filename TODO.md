@@ -7,5 +7,5 @@
 - [x] ESLint for node?
 - [x] Yargs?
 - [x] Error handling in the fs.
+- [ ] More scraping for video/gallery types. Available types: **GraphImage**, **GraphVideo**, or **GraphSidecar**.
 - [ ] Learn about promises and async/await, and answer why it takes so long to exit after downloading.
-- [ ] More scraping for video/gallery types.
