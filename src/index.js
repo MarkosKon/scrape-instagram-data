@@ -5,23 +5,33 @@ const { argv } = require("yargs")
   .usage("Usage: $0 [options]")
   .example(
     "$0 -u emilia_clarke",
-    "Download Instagram posts for user emilia_clarke"
+    "Downloads the last 100 Instagram posts for user emilia_clarke."
   )
+  // -u or --username.
   .alias("u", "username")
   .nargs("u", 1)
-  .describe("u", "Instagram username")
+  .describe("u", "Instagram username.")
   .string("u")
+  // -o or --override.
   .alias("o", "override")
-  .describe("o", "Override data if they exist.")
+  .describe("o", "Override data if they already exist.")
   .boolean("o")
-  .alias("h", "help");
+  // -a or --all.
+  .alias("a", "all")
+  .describe("a", "Download all posts. Otherwise, downloads the last 100.")
+  .boolean("a")
+  .default("a", false)
+  // -h or --help.
+  .alias("h", "help")
+  // --version. Add a comma, lol.
+  .describe("version", "Show version number.");
 
 const getData = require("./getData");
 
 (async () => {
   let downloadData = true;
 
-  let { username, override } = argv;
+  let { username, override, all } = argv;
   if (!username) {
     const answers = await inquirer.prompt([
       {
@@ -56,7 +66,8 @@ const getData = require("./getData");
   }
 
   if (downloadData) {
-    const { userData, posts } = await getData(username);
+    const limit = !all && 100;
+    const { userData, posts } = await getData(username, limit);
 
     fs.writeFileSync(
       `data/${username}/user-data.json`,

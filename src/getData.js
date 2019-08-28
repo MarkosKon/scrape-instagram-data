@@ -15,7 +15,7 @@ const bar = new ProgressBar(
   }
 );
 
-module.exports = async username => {
+module.exports = async (username, limit) => {
   const url = `https://www.instagram.com/${username}/?__a=1`;
 
   const response = await fetch(url);
@@ -33,6 +33,7 @@ module.exports = async username => {
     "user.edge_owner_to_timeline_media.page_info.end_cursor"
   );
   if (endCursor) {
+    const downloadedSoFar = posts.length;
     return {
       userData,
       posts: await getPosts({
@@ -40,7 +41,9 @@ module.exports = async username => {
         userId: userData.id,
         username,
         bar,
-        result: posts
+        result: posts,
+        limit,
+        downloadedSoFar
       })
     };
   }
