@@ -6,6 +6,6 @@
 - [x] If an image exists, don't download it.
 - [x] ESLint for node?
 - [x] Yargs?
+- [x] Error handling in the fs.
 - [ ] Learn about promises and async/await, and answer why it takes so long to exit after downloading.
-- [ ] Error handling in the fs.
 - [ ] More scraping for video/gallery types.

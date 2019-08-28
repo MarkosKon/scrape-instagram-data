@@ -1,5 +1,4 @@
 const get = require("lodash.get");
-// const fs = require("fs");
 const fetch = require("node-fetch");
 
 const downloadPostImage = require("./downloadPostImage");
@@ -39,7 +38,6 @@ const getPosts = async ({
       result: currentResult,
       limit,
       downloadedSoFar: currentResult.length
-      // downloadedSoFar: limit && currentResult.length
     });
   return currentResult;
 };

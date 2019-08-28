@@ -69,13 +69,15 @@ const getData = require("./getData");
     const limit = !all && 100;
     const { userData, posts } = await getData(username, limit);
 
-    fs.writeFileSync(
-      `data/${username}/user-data.json`,
-      JSON.stringify(userData, null, 2)
-    );
-    fs.writeFileSync(
-      `data/${username}/posts.json`,
-      JSON.stringify(posts, null, 2)
-    );
+    const userDataFilePath = `data/${username}/user-data.json`;
+    fs.writeFile(userDataFilePath, JSON.stringify(userData, null, 2), err => {
+      if (err) throw err;
+      console.log(`Successfully created ${userDataFilePath}`);
+    });
+    const postsFilePath = `data/${username}/posts.json`;
+    fs.writeFile(postsFilePath, JSON.stringify(posts, null, 2), err => {
+      if (err) throw err;
+      console.log(`Successfully created ${postsFilePath}`);
+    });
   }
 })();

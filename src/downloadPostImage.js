@@ -12,4 +12,7 @@ module.exports = async ({ post, username, bar }) => {
   const dest = fs.createWriteStream(imagePath);
   res.body.pipe(dest);
   bar.tick();
+  dest.on("error", err => {
+    throw err;
+  });
 };
