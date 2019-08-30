@@ -36,6 +36,8 @@ module.exports = async (username, limit) => {
     const downloadedSoFar = posts.length;
     return {
       userData,
+      // Tail call recursion, doesn't matter
+      // if we "await" or not.
       posts: await getPosts({
         lastPageId: endCursor,
         userId: userData.id,

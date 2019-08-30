@@ -30,7 +30,24 @@ const getPosts = async ({
   );
   const currentResult = result.concat(newPosts);
   if (endCursor)
-    return getPosts({
+    // This is a tail call recursion—using
+    // a reducer—so it doesn't matter if we
+    // "await" or not; in the end, all functions
+    // will return the currentResult which is a value.
+    // If the caller awaits... If not will be wrapped in
+    // a promise. In our case, the caller is the index.js.
+    //
+    // There is an ESLint rule for that. It says that
+    // indeed there's no difference, and we should not
+    // "return await" because the return value of the async
+    // function will always be a promise. We "return await"
+    // only in try/catch blocks because if we don't, we
+    // won't catch the error.
+    // https://eslint.org/docs/rules/no-return-await
+    // Also, it doesn't seem to create a performance problem if
+    // you "return await", as the eslint rule suggests:
+    // https://stackoverflow.com/questions/38708550/difference-between-return-await-promise-and-return-promise
+    return await getPosts({
       lastPageId: endCursor,
       userId,
       username,
