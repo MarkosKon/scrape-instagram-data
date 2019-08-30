@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 
 const downloadPostImage = require("./downloadPostImage");
 const mapPosts = require("./mapPosts");
+const checkStatus = require("./checkStatus");
 
 const getPosts = async ({
   lastPageId,
@@ -17,12 +18,17 @@ const getPosts = async ({
   const url = `https://www.instagram.com/graphql/query/?query_hash=472f257a40c653c64c666ce877d59d2b&variables={"id":"${userId}","first":${pageSize},"after":"${lastPageId}"}`;
 
   const response = await fetch(url);
+  // or const response = await fetch(url).then(res => checkStatus(res));
+  checkStatus(response);
   const json = await response.json();
 
   const rawData = json.data;
   const newPosts = mapPosts(rawData);
 
-  newPosts.forEach(post => downloadPostImage({ post, username, bar }));
+  for (const post of newPosts) {
+    downloadPostImage({ post, username, bar });
+  }
+  // newPosts.forEach(post => downloadPostImage({ post, username, bar }));
 
   const endCursor = get(
     rawData,

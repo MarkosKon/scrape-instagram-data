@@ -1,6 +1,7 @@
 const fs = require("fs");
 const mkdirp = require("mkdirp");
 const inquirer = require("inquirer");
+const ProgressBar = require("progress");
 const { argv } = require("yargs")
   .usage("Usage: $0 [options]")
   .example(
@@ -26,7 +27,24 @@ const { argv } = require("yargs")
   // --version. Add a comma, lol.
   .describe("version", "Show version number.");
 
+const downloadPostImage = require("./downloadPostImage");
 const getData = require("./getData");
+const getPosts = require("./getPosts");
+
+const bar = new ProgressBar(
+  "Downloading instagram posts [:bar] :current/:total :elapsed secs :percent",
+  {
+    total: 0,
+    width: 30
+  }
+);
+
+const writeFile = (path, data) => {
+  fs.writeFile(path, JSON.stringify(data, null, 2), err => {
+    if (err) throw err;
+    console.log(`Successfully created ${path}`);
+  });
+};
 
 (async () => {
   let downloadData = true;
@@ -67,17 +85,32 @@ const getData = require("./getData");
 
   if (downloadData) {
     const limit = !all && 100;
-    const { userData, posts } = await getData(username, limit);
+    try {
+      // Maybe the file error handlers are redundant inside try...
+      const { userData, initialPosts, endCursor } = await getData(username);
+      writeFile(`data/${username}/user-data.json`, userData);
+      bar.total = userData.postCount;
 
-    const userDataFilePath = `data/${username}/user-data.json`;
-    fs.writeFile(userDataFilePath, JSON.stringify(userData, null, 2), err => {
-      if (err) throw err;
-      console.log(`Successfully created ${userDataFilePath}`);
-    });
-    const postsFilePath = `data/${username}/posts.json`;
-    fs.writeFile(postsFilePath, JSON.stringify(posts, null, 2), err => {
-      if (err) throw err;
-      console.log(`Successfully created ${postsFilePath}`);
-    });
+      for (const post of initialPosts) {
+        downloadPostImage({ post, username, bar });
+      }
+      // initialPosts.forEach(post => downloadPostImage({ post, username, bar }));
+
+      let posts = initialPosts;
+      if (endCursor)
+        posts = await getPosts({
+          lastPageId: endCursor,
+          userId: userData.id,
+          username,
+          bar,
+          result: posts,
+          limit,
+          downloadedSoFar: initialPosts.length
+        });
+
+      writeFile(`data/${username}/posts.json`, posts);
+    } catch (e) {
+      console.log(`Something went wrong: ${e}`);
+    }
   }
 })();
