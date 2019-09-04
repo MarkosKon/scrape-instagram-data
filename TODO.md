@@ -1,5 +1,7 @@
 # Scrape Instagram Data
 
+The script may hang at the last few posts because it probably waits a delayed http response. You can either wait to finish or timeout, or you can cancel the script and start downloading again. It will download and overwrite the 2 data files (JSON) but it won't download the images again—only those that failed.
+
 ## TODO
 
 - [x] User inquirer to get username and override permission.
@@ -9,7 +11,7 @@
 - [x] ESLint for node?
 - [x] Yargs?
 - [x] Error handling in the fs.
-- [ ] Learn about promises and async/await, and answer why it takes so long to exit after downloading.
+- [x] Learn about promises and async/await, and answer why it takes so long to exit after downloading.
 
 ## Optional
 

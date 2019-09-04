@@ -42,7 +42,7 @@ const bar = new ProgressBar(
 const writeFile = (path, data) => {
   fs.writeFile(path, JSON.stringify(data, null, 2), err => {
     if (err) throw err;
-    console.log(`Successfully created ${path}`);
+    console.log(`Data saved in ${path}.`);
   });
 };
 
@@ -78,15 +78,24 @@ const writeFile = (path, data) => {
     override = answers.override;
     if (!override) downloadData = false;
   } else {
-    console.log(`Creating directory for user ${username} in ${userFolder} ...`);
-    mkdirp(userFolder);
-    mkdirp(`${userFolder}/images`);
+    mkdirp(userFolder, function userFolderLogger(err) {
+      if (err) {
+        console.log(err);
+        throw err;
+      } else console.log(`Created directory "${userFolder}".`);
+    });
+    const imagesFolder = `${userFolder}/images`;
+    mkdirp(imagesFolder, function imagesFolderLogger(err) {
+      if (err) {
+        console.log(err);
+        throw err;
+      } else console.log(`Created directory "${imagesFolder}".`);
+    });
   }
 
   if (downloadData) {
     const limit = !all && 100;
     try {
-      // Maybe the file error handlers are redundant inside try...
       const { userData, initialPosts, endCursor } = await getData(username);
       writeFile(`data/${username}/user-data.json`, userData);
       bar.total = userData.postCount;
@@ -110,7 +119,7 @@ const writeFile = (path, data) => {
 
       writeFile(`data/${username}/posts.json`, posts);
     } catch (e) {
-      console.log(`Something went wrong: ${e}`);
+      console.log(`\nSomething went wrong: ${e}\n`);
     }
   }
 })();
