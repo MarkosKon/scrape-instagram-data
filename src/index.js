@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const fs = require("fs");
 const mkdirp = require("mkdirp");
 const inquirer = require("inquirer");

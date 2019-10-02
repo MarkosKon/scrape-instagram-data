@@ -1,6 +1,5 @@
 {
-  "name": "scrape-node-fetch",
-  "private": true,
+  "name": "scrape-instagram-data",
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
@@ -8,6 +7,9 @@
     "start:mon": "nodemon src/index.js --ignore data",
     "lint": "eslint --ext js,jsx src",
     "format": "eslint --ext js,jsx --fix src"
+  },
+  "bin": {
+    "scrape": "./src/index.js"
   },
   "license": "MIT",
   "husky": {
