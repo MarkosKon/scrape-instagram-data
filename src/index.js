@@ -36,12 +36,12 @@ const bar = new ProgressBar(
   "Downloading instagram posts [:bar] :current/:total :elapsed secs :percent",
   {
     total: 0,
-    width: 30
+    width: 30,
   }
 );
 
 const writeFile = (path, data) => {
-  fs.writeFile(path, JSON.stringify(data, null, 2), err => {
+  fs.writeFile(path, JSON.stringify(data, null, 2), (err) => {
     if (err) throw err;
     console.log(`Data saved in ${path}.`);
   });
@@ -57,11 +57,11 @@ const writeFile = (path, data) => {
         type: "input",
         name: "username",
         message: "Enter the username",
-        validate: value => {
+        validate: (value) => {
           if (value) return true;
           return "The Instagram username is required.";
-        }
-      }
+        },
+      },
     ]);
     username = answers.username;
   }
@@ -73,8 +73,8 @@ const writeFile = (path, data) => {
         type: "confirm",
         name: "override",
         message: `It seems that you already downloaded data for ${username}. Do you want to download again?`,
-        default: false
-      }
+        default: false,
+      },
     ]);
     override = answers.override;
     if (!override) downloadData = false;
@@ -115,7 +115,7 @@ const writeFile = (path, data) => {
           bar,
           result: posts,
           limit,
-          downloadedSoFar: initialPosts.length
+          downloadedSoFar: initialPosts.length,
         });
 
       writeFile(`data/${username}/posts.json`, posts);

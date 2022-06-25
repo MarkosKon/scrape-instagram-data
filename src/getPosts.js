@@ -12,7 +12,7 @@ const getPosts = async ({
   bar,
   result,
   limit,
-  downloadedSoFar
+  downloadedSoFar,
 }) => {
   const pageSize = limit ? limit - downloadedSoFar : 1000; // max is 50 anyway.
   const url = `https://www.instagram.com/graphql/query/?query_hash=472f257a40c653c64c666ce877d59d2b&variables={"id":"${userId}","first":${pageSize},"after":"${lastPageId}"}`;
@@ -60,7 +60,7 @@ const getPosts = async ({
       bar,
       result: currentResult,
       limit,
-      downloadedSoFar: currentResult.length
+      downloadedSoFar: currentResult.length,
     });
   return currentResult;
 };

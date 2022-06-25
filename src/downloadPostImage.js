@@ -17,10 +17,10 @@ module.exports = async ({ post, username, bar }) => {
     checkStatus(res);
     const dest = fs.createWriteStream(imagePath);
     res.body.pipe(dest);
-    dest.on("error", err => {
+    dest.on("error", (err) => {
       throw err;
     });
-    dest.on("close", err => {
+    dest.on("close", (err) => {
       if (err) throw err;
       bar.tick();
     });

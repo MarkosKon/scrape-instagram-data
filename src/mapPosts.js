@@ -2,8 +2,8 @@ const get = require("lodash.get");
 
 module.exports = ({
   user: {
-    edge_owner_to_timeline_media: { edges }
-  }
+    edge_owner_to_timeline_media: { edges },
+  },
 }) =>
   edges.map(({ node }) => {
     const textArray = get(node, "edge_media_to_caption.edges");
@@ -25,6 +25,6 @@ module.exports = ({
       imageHQ: get(node, "display_url"),
       imageThumbnail: get(node, "thumbnail_src"),
       a11yCaption: get(node, "accessibility_caption"),
-      date: new Date(get(node, "taken_at_timestamp") * 1000).toISOString()
+      date: new Date(get(node, "taken_at_timestamp") * 1000).toISOString(),
     };
   });

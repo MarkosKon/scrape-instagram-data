@@ -4,12 +4,11 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "start:mon": "nodemon src/index.js --ignore data",
     "lint": "eslint --ext js,jsx src",
     "format": "eslint --ext js,jsx --fix src"
   },
   "bin": {
-    "scrape": "./src/index.js"
+    "scrape-instagram": "./src/index.js"
   },
   "license": "MIT",
   "husky": {
@@ -21,30 +20,33 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.{md,json,css}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "dependencies": {
-    "inquirer": "^7.0.0",
+    "inquirer": "^8.2.3",
     "lodash.get": "^4.4.2",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.4",
     "node-fetch": "^2.6.7",
     "progress": "^2.0.3",
-    "yargs": "^14.0.0"
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
-    "eslint": "^6.2.2",
-    "eslint-config-prettier": "^6.1.0",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "husky": "^3.0.4",
-    "lint-staged": "^9.2.5",
-    "nodemon": "^1.19.1",
-    "prettier": "^1.18.2"
+    "@types/inquirer": "^8.2.1",
+    "@types/mkdirp": "^1.0.2",
+    "@types/node": "^18.0.0",
+    "@types/node-fetch": "^2.6.2",
+    "@types/yargs": "^17.0.10",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
   }
 }

@@ -11,5 +11,5 @@ module.exports = ({ user }) => ({
   externalUrl: get(user, "external_url"),
   followers: get(user, "edge_followed_by.count"),
   following: get(user, "edge_follow.count"),
-  postCount: get(user, "edge_owner_to_timeline_media.count")
+  postCount: get(user, "edge_owner_to_timeline_media.count"),
 });
