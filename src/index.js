@@ -6,7 +6,10 @@ const fs = require("fs");
 const mkdirp = require("mkdirp");
 const inquirer = require("inquirer");
 const ProgressBar = require("progress");
-const { argv } = require("yargs")
+const yargs = require("yargs/yargs");
+const { hideBin } = require("yargs/helpers");
+
+const argv = yargs(hideBin(process.argv))
   .usage("Usage: $0 [options]")
   .example(
     "$0 -u emilia_clarke",
@@ -29,7 +32,7 @@ const { argv } = require("yargs")
   // -h or --help.
   .alias("h", "help")
   // --version. Add a comma, lol.
-  .describe("version", "Show version number.");
+  .describe("version", "Show version number.").argv;
 
 const downloadPostImage = require("./downloadPostImage");
 const getData = require("./getData");
