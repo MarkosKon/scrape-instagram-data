@@ -1,6 +1,8 @@
+// @ts-check
+
 const get = require("lodash.get");
 
-module.exports = ({
+const mapPosts = ({
   user: {
     edge_owner_to_timeline_media: { edges },
   },
@@ -28,3 +30,5 @@ module.exports = ({
       date: new Date(get(node, "taken_at_timestamp") * 1000).toISOString(),
     };
   });
+
+module.exports = mapPosts;

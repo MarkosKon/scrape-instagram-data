@@ -1,9 +1,17 @@
+// @ts-check
+
 const fs = require("fs");
-const fetch = require("node-fetch");
+const { default: fetch } = require("node-fetch");
 
 const checkStatus = require("./checkStatus");
 
-module.exports = async ({ post, username, bar }) => {
+/**
+ * @param {Object} input
+ * @param {string} input.username
+ * @param {ProgressBar} input.bar
+ * @param {any} input.post
+ */
+const downloadPostImage = async ({ post, username, bar }) => {
   const { imageHQ, code } = post;
   const imagePath = `data/${username}/images/${code}.jpg`;
   if (fs.existsSync(imagePath)) {
@@ -13,20 +21,22 @@ module.exports = async ({ post, username, bar }) => {
   // Because I'm not awaiting outside, I have
   // to use a try/catch here.
   try {
-    const res = await fetch(imageHQ);
-    checkStatus(res);
-    const dest = fs.createWriteStream(imagePath);
-    res.body.pipe(dest);
-    dest.on("error", (err) => {
-      throw err;
+    const response = await fetch(imageHQ);
+    checkStatus(response);
+    const destination = fs.createWriteStream(imagePath);
+    response.body.pipe(destination);
+    destination.on("error", (error) => {
+      throw error;
     });
-    dest.on("close", (err) => {
-      if (err) throw err;
+    destination.on("close", (error) => {
+      if (error) throw error;
       bar.tick();
     });
-  } catch (e) {
-    console.log(
-      `Something went wrong while downloading the file ${code}: ${e}`
+  } catch (error) {
+    console.error(
+      `Something went wrong while downloading the file ${code}: ${error}`
     );
   }
 };
+
+module.exports = downloadPostImage;

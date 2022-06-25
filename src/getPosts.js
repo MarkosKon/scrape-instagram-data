@@ -1,5 +1,7 @@
+// @ts-check
+
 const get = require("lodash.get");
-const fetch = require("node-fetch");
+const { default: fetch } = require("node-fetch");
 
 const downloadPostImage = require("./downloadPostImage");
 const mapPosts = require("./mapPosts");

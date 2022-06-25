@@ -1,11 +1,13 @@
-const fetch = require("node-fetch");
+// @ts-check
+
+const { default: fetch } = require("node-fetch");
 const get = require("lodash.get");
 
 const mapUserData = require("./mapUserData");
 const mapPosts = require("./mapPosts");
 const checkStatus = require("./checkStatus");
 
-module.exports = async (username) => {
+const getData = async (username) => {
   const url = `https://www.instagram.com/${username}/?__a=1`;
 
   const response = await fetch(url);
@@ -25,3 +27,5 @@ module.exports = async (username) => {
     endCursor,
   };
 };
+
+module.exports = getData;

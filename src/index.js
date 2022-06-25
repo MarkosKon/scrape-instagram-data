@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+
+// @ts-check
+
 const fs = require("fs");
 const mkdirp = require("mkdirp");
 const inquirer = require("inquirer");
@@ -79,19 +82,17 @@ const writeFile = (path, data) => {
     override = answers.override;
     if (!override) downloadData = false;
   } else {
-    mkdirp(userFolder, function userFolderLogger(err) {
-      if (err) {
-        console.log(err);
-        throw err;
-      } else console.log(`Created directory "${userFolder}".`);
-    });
-    const imagesFolder = `${userFolder}/images`;
-    mkdirp(imagesFolder, function imagesFolderLogger(err) {
-      if (err) {
-        console.log(err);
-        throw err;
-      } else console.log(`Created directory "${imagesFolder}".`);
-    });
+    try {
+      await mkdirp(userFolder);
+      console.log(`Created directory "${userFolder}".`);
+
+      const imagesFolder = `${userFolder}/images`;
+      await mkdirp(imagesFolder);
+      console.log(`Created directory "${imagesFolder}".`);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   if (downloadData) {
@@ -119,8 +120,8 @@ const writeFile = (path, data) => {
         });
 
       writeFile(`data/${username}/posts.json`, posts);
-    } catch (e) {
-      console.log(`\nSomething went wrong: ${e}\n`);
+    } catch (error) {
+      console.error(`\nSomething went wrong: ${error}\n`);
     }
   }
 })();
